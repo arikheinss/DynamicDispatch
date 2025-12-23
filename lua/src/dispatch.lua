@@ -13,11 +13,16 @@ function dynamic_dispatcher.__call(tbl, arg1,  ...)
             end
             meta = getmetatable(meta)
         end
-        objType = "any"
     end
+    
     local method = tbl[objType]
     if method ~= nil then
         return method(arg1, ...)
+    end
+    
+    local fallback = tbl["any"]
+    if fallback ~= nil then
+        return fallback(arg1, ...)
     else
         error("Failed to find method")
     end
